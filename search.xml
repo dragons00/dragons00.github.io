@@ -52,8 +52,231 @@
 <h2 id="12-粗体斜体"><a href="#12-粗体斜体" class="headerlink" title="12.粗体斜体"></a>12.粗体斜体</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">**粗体**</span><br><span class="line">*斜体*</span><br><span class="line">~~删除线~~</span><br><span class="line">***粗体斜体***</span><br><span class="line">***~~粗体斜体删除线~~***</span><br></pre></td></tr></table></figure>
 <p><strong>粗体</strong><br><em>斜体</em><br><del>删除线</del><br><strong><em>粗体斜体</em></strong><br><strong><em><del>粗体斜体删除线</del></em></strong></p>
 <h2 id="13-返回顶部"><a href="#13-返回顶部" class="headerlink" title="13.返回顶部"></a>13.返回顶部</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[返回顶部](#head)  &#x2F;&#x2F;#html的id属性值</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>markdown</category>
+      </categories>
       <tags>
         <tag>markdown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>1.css和文档</title>
+    <url>/2020/05/02/css3/1.css%E5%92%8C%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<p>本文目前是css权威指南(4th Edition)的读书笔记，后续可能会继续整理汇入自己的见解。</p>
+<a id="more"></a>
+<h1 id="0-简介"><a href="#0-简介" class="headerlink" title="0.简介"></a>0.简介</h1><p>CSS3采取模块化开发，不同模块处于不同Level，CSS工作组每年发布“snapshot”，整合规范文件。</p>
+<ul>
+<li>置换元素：用来置换元素内容的部分不由文档内容直接提供，为其他内容占位的元素。例如input，img。</li>
+<li>非置换元素：内容包含在文档中的元素。</li>
+</ul>
+<h1 id="1-css和文档"><a href="#1-css和文档" class="headerlink" title="1.css和文档"></a>1.css和文档</h1><h2 id="1-1外部样式表"><a href="#1-1外部样式表" class="headerlink" title="1.1外部样式表"></a>1.1外部样式表</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;link rel&#x3D;&quot;stylesheet&quot; type&#x3D;&quot;text&#x2F;css&quot; href&#x3D;&quot;url&quot; media&#x3D;&quot;&quot; title&#x3D;&quot;&quot;&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="1-2外部样式表的属性"><a href="#1-2外部样式表的属性" class="headerlink" title="1.2外部样式表的属性"></a>1.2外部样式表的属性</h3><h3 id="1-1-media"><a href="#1-1-media" class="headerlink" title="1.1 media"></a>1.1 media</h3><ul>
+<li>media属性：值是一个或多个媒体属性描述符，指明媒体的类型和具体功能，以逗号隔开。</li>
+</ul>
+<h3 id="1-2-rel"><a href="#1-2-rel" class="headerlink" title="1.2 rel"></a>1.2 rel</h3><ul>
+<li>首选样式表：显示文档只会用rel是stylesheet的link标签链接的样式表。</li>
+<li>候选样式表：rel=“alternate stylesheet”，仅当用户选择使用。目前只有Gecko浏览器原生支持。</li>
+</ul>
+<h3 id="1-3-title"><a href="#1-3-title" class="headerlink" title="1.3 title"></a>1.3 title</h3><ul>
+<li>永久样式表：不为样式表设定title属性。<br/><br>首选样式表有title则会出现异常，不同时使用。<h3 id="1-4-import"><a href="#1-4-import" class="headerlink" title="1.4 @import"></a>1.4 @import</h3></li>
+<li>@import url() [媒体描述符]?;<ul>
+<li>用在style元素内部，必须放在其他CSS规则前面；</li>
+<li>一个文档可以有多个@import语句，都会使用，而且没有候选样式表。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-5HTTP链接"><a href="#1-5HTTP链接" class="headerlink" title="1.5HTTP链接"></a>1.5HTTP链接</h3><ul>
+<li>为文档关联CSS，还有一种方式：使用http首部。</li>
+<li>暂时mark*</li>
+</ul>
+<h2 id="2-行内样式"><a href="#2-行内样式" class="headerlink" title="2.行内样式"></a>2.行内样式</h2><ul>
+<li>style属性的值是一系列规则声明。<h2 id="3-厂商前缀"><a href="#3-厂商前缀" class="headerlink" title="3.厂商前缀"></a>3.厂商前缀</h2>浏览器厂商通过它标记实验性或者专属性的属性、值或者内容。<h2 id="4-注释"><a href="#4-注释" class="headerlink" title="4.注释"></a>4.注释</h2></li>
+<li>/ * * /会被CSS解析器忽视，并不存在。</li>
+</ul>
+<h2 id="5-媒体查询"><a href="#5-媒体查询" class="headerlink" title="5.媒体查询"></a>5.媒体查询</h2><p>定义浏览器在何种媒体环境使用指定的样式表：</p>
+<ol>
+<li>link 元素的media属性；</li>
+<li>style元素的media属性；</li>
+<li>@import 声明的媒体描述符部分；</li>
+<li>@media  声明的媒体描述符部分；@media print，screen{}；</li>
+</ol>
+<ul>
+<li>媒体查询包括描述媒体类型的词组和对媒体参数的说明；</li>
+<li>一个媒体描述符包含一个媒体类型和一个或者多个媒体特性列表，特性描述符放在（）中。</li>
+<li>特性描述符类似CSS中的一对属性和值，但媒体属性描述符可以不指定任何值。</li>
+</ul>
+<ul>
+<li>媒体查询可以使用逻辑关键字<ul>
+<li>and 都满足，方可用</li>
+<li>not 除了都满足的，其他都应用。必须放到开头使用：not（）and（）；</li>
+<li>only 用于保证向后兼容，不支持媒体查询，则无效，必须放到开头。</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-特性查询"><a href="#6-特性查询" class="headerlink" title="6.特性查询"></a>6.特性查询</h2><p>根据用户代理是否支持特定的CSS属性及值来应用一段样式，该功能称为特性查询。可以使用纯CSS实现基本的渐进增强功能。<br><br/>@support（color：red）,可以和媒体查询嵌套使用。<br>支持使用：and or not</p>
+]]></content>
+      <categories>
+        <category>前端 css3</category>
+      </categories>
+      <tags>
+        <tag>css</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>npm镜像问题处理</title>
+    <url>/2020/05/02/npm%E9%95%9C%E5%83%8F%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/npm%E9%95%9C%E5%83%8F%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/</url>
+    <content><![CDATA[<p>处理有关npm下载缓慢更换镜像的问题。</p>
+<a id="more"></a>
+<h2 id="1-淘宝镜像地址"><a href="#1-淘宝镜像地址" class="headerlink" title="1.淘宝镜像地址"></a>1.淘宝镜像地址</h2><ul>
+<li><a href="https://npm.taobao.org/" target="_blank" rel="noopener">https://npm.taobao.org/</a></li>
+</ul>
+<h2 id="2使用配置npm"><a href="#2使用配置npm" class="headerlink" title="2使用配置npm"></a>2使用配置npm</h2><ul>
+<li>1.临时使用  <ul>
+<li>npm install package-name –registry <a href="https://registry.npm.taobao.org" target="_blank" rel="noopener">https://registry.npm.taobao.org</a></li>
+</ul>
+</li>
+<li>2.持久使用  <ul>
+<li>npm config set registry <a href="https://registry.npm.taobao.org" target="_blank" rel="noopener">https://registry.npm.taobao.org</a><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 配置后可通过下面方式来验证是否成功  </span><br><span class="line">npm config get registry  </span><br><span class="line">&#x2F;&#x2F; 或npm info package-name</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>3.通过cnpm使用<ul>
+<li>npm install -g cnpm –registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="noopener">https://registry.npm.taobao.org</a>  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 使用cnpm install package-name</span><br></pre></td></tr></table></figure>
+<h2 id="3-atom使用淘宝镜像"><a href="#3-atom使用淘宝镜像" class="headerlink" title="3.atom使用淘宝镜像"></a>3.atom使用淘宝镜像</h2></li>
+</ul>
+</li>
+<li>使用apm替换源：apm config set registry –registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="noopener">https://registry.npm.taobao.org</a> </li>
+<li>检查是否配置成功 apm install –check</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>npm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2.选择符</title>
+    <url>/2020/05/02/css3/2.%E9%80%89%E6%8B%A9%E7%AC%A6/</url>
+    <content><![CDATA[<p>本文目前是css权威指南(4th Edition)的读书笔记，后续可能会继续整理汇入自己的见解。</p>
+<a id="more"></a>
+<h2 id="1-基本规则"><a href="#1-基本规则" class="headerlink" title="1.基本规则"></a>1.基本规则</h2><ul>
+<li>选择符 {声明块}</li>
+<li>声明格式：属性：值；</li>
+<li>多个值的关键字以空格（有时是逗号，斜线）隔开。</li>
+<li>属性或者值有问题，则整个规则将被忽略。</li>
+<li>属性规范声明最后要加分号。</li>
+</ul>
+<h2 id="2-群组选择符和通用选择符"><a href="#2-群组选择符和通用选择符" class="headerlink" title="2.群组选择符和通用选择符"></a>2.群组选择符和通用选择符</h2><ul>
+<li>群组选择符以逗号隔开，共用一个样式规则。</li>
+<li>“ * ”表示通用选择符，适配所有元素。特指度为0，因为适配所有元素，存在异常后果。  </li>
+</ul>
+<h2 id="3-旧浏览器使用新元素"><a href="#3-旧浏览器使用新元素" class="headerlink" title="3.旧浏览器使用新元素"></a>3.旧浏览器使用新元素</h2><p>在DOM中创建新元素，让浏览器知道元素的存在。例如IE8不识别<main>,使用JS如下：document.createElement(‘main’);</p>
+<h2 id="4-类选择符和ID选择符"><a href="#4-类选择符和ID选择符" class="headerlink" title="4.类选择符和ID选择符"></a>4.类选择符和ID选择符</h2><p>类选择符和ID选择符需要对文档的标记有一定的结构，需要提前做好构思规划。<br>选择设定了class属性的元素赋予样式：（.）冒号+（class的值）</p>
+<ul>
+<li>class有多个关键字作为值，可分别作为类选择符串在一起，没有顺序要求。例如：  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div class&#x3D;&#39;import main&#39;&gt;&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure></li>
+<li>.main.import{}<br>ID选择符选择设定了ID属性的元素赋予样式：（#）散列字元+（ID的值）</li>
+</ul>
+<ul>
+<li>ID的值不能以空格分隔，所以ID选择符不能串在一起。</li>
+<li>ID和类选择符可能区分大小写，HTML区分大小写。</li>
+</ul>
+<h2 id="5-属性选择符"><a href="#5-属性选择符" class="headerlink" title="5.属性选择符"></a>5.属性选择符</h2><p>根据其属性及值选择元素，大致分为四类。</p>
+<h3 id="5-1简单属性选择符"><a href="#5-1简单属性选择符" class="headerlink" title="5.1简单属性选择符"></a>5.1简单属性选择符</h3><p>选择具有某个属性或多个属性的元素，不涉及属性取值。例如：a[href][title]</p>
+<h3 id="5-2精准属性值选择符"><a href="#5-2精准属性值选择符" class="headerlink" title="5.2精准属性值选择符"></a>5.2精准属性值选择符</h3><p>选择属性为特定值的元素，可以串起来多个属性。例如：a[href=’<a href="http://www.baidu.com&#39;][title=&#39;my&#39;]" target="_blank" rel="noopener">www.baidu.com&#39;][title=&#39;my&#39;]</a></p>
+<ul>
+<li>精准值选择符必须完全匹配属性的值包括顺序和空格。</li>
+</ul>
+<h3 id="5-3部分匹配属性值选择符"><a href="#5-3部分匹配属性值选择符" class="headerlink" title="5.3部分匹配属性值选择符"></a>5.3部分匹配属性值选择符</h3><p>根据属性值的一部分选择元素：</p>
+<ul>
+<li>[foo|=”bar”] 选择的元素有foo属性，且其值以bar和一个英文破折号（U+002D）开头，或者就是bar本身。</li>
+<li>[foo~=”bar”]选择的元素有foo属性，且其值是包含bar这个词的一组词。</li>
+<li>[foo*=”bar”]选择的元素有foo属性，且其值包含子串bar。</li>
+</ul>
+<h3 id="5-4起始值属性选择符"><a href="#5-4起始值属性选择符" class="headerlink" title="5.4起始值属性选择符"></a>5.4起始值属性选择符</h3><ul>
+<li>[foo^=”bar”]选择的元素有foo属性，且其值以bar开头。</li>
+<li>[foo$=”bar”]选择的元素有foo属性，且其值以bar结尾。</li>
+</ul>
+<h3 id="5-5不区分大小写的标识符"><a href="#5-5不区分大小写的标识符" class="headerlink" title="5.5不区分大小写的标识符"></a>5.5不区分大小写的标识符</h3><ul>
+<li>i：在[ att|=”” i],表示属性的值不区分大小写。</li>
+</ul>
+<h2 id="6-根据文档结构选择"><a href="#6-根据文档结构选择" class="headerlink" title="6.根据文档结构选择"></a>6.根据文档结构选择</h2><ul>
+<li>后代选择符：两个或多个空格分开。</li>
+<li>选择子元素“&gt;”:大于号表示子元素。</li>
+<li>选择紧邻同胞元素“+”。</li>
+<li>选择后续同胞“~”</li>
+</ul>
+<h2 id="7-伪类选择符"><a href="#7-伪类选择符" class="headerlink" title="7.伪类选择符"></a>7.伪类选择符</h2><p>可以为文档中不一定真实存在的结构指定样式，或者为某些元素（或者文档本身）的特定状态赋予幽灵累。</p>
+<h3 id="7-1拼接伪类"><a href="#7-1拼接伪类" class="headerlink" title="7.1拼接伪类"></a>7.1拼接伪类</h3><p>允许把伪类串接在一起，<code>伪类始终指代依附的元素</code>。</p>
+<h3 id="7-2结构伪类"><a href="#7-2结构伪类" class="headerlink" title="7.2结构伪类"></a>7.2结构伪类</h3><p>伪类大多是结构上的，即它们指代文档中的标记结构。</p>
+<ul>
+<li>:root 选择文档的根元素。</li>
+<li>:empty选择没有子代元素，包括文本节点（空白/换行），是到2017年位置唯一考虑文本节点的伪类。<ul>
+<li>img input textarea</li>
+</ul>
+</li>
+</ul>
+<p>===============================================</p>
+<ul>
+<li>:only-child 匹配完全没有同胞的元素。 </li>
+<li>:only-of-type 匹配通报中唯一种类的那种元素。</li>
+<li>:first-child 匹配第一个子元素</li>
+<li>:last-child匹配最后一个子元素</li>
+<li>:first-child:last-child=:only-child</li>
+<li>:first-of-type匹配第一个某种元素</li>
+<li>:last-of-type匹配最后一个某种元素</li>
+<li>:nth-child(an+b)选择每n个元素(an+b&gt;=1)<ul>
+<li>可以使用even偶数和odd奇数俩个关键字</li>
+</ul>
+</li>
+<li>:nth-last-child()从后往前数</li>
+<li>:nth-of-type选择每第n个某种元素</li>
+<li>:nth-last-of-type</li>
+</ul>
+<h3 id="7-3动态伪类"><a href="#7-3动态伪类" class="headerlink" title="7.3动态伪类"></a>7.3动态伪类</h3><ul>
+<li><p>超链接伪类</p>
+<ul>
+<li>:link未访问</li>
+<li>:visited已访问 出于安全考虑，样式有限</li>
+</ul>
+</li>
+<li><p>用户操作伪类</p>
+<ul>
+<li>:focus当前获得输入焦点的元素，接受键盘输入或者某种方式激活</li>
+<li>:hover鼠标指针放置其上的元素</li>
+<li>:active指代由用户激活的元素，例如点击超链接按下鼠标的那段时间</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-4UI状态伪类"><a href="#7-4UI状态伪类" class="headerlink" title="7.4UI状态伪类"></a>7.4UI状态伪类</h3><p>可以被用户操作，也受文档结构和DOM脚本的影响。</p>
+<ul>
+<li>:enabled 指代启用的用户界面元素，即接受输入的元素。</li>
+<li>:disabled 指代禁用的用户界面元素，即不接受输入的元素。</li>
+<li>:checked 指代由用户或文档默认选中的单选按钮或复选框</li>
+<li>:indeterminate 指代既未选中也没有未选中的单选按钮或复选框，这个状态只能由DOM脚本指定，不能由用户设定。</li>
+<li>:default 指代默认选中的单选按钮，复选框或选项。</li>
+<li>:vaild指代满足所欲数据有效性语义的输入框。</li>
+<li>:invalid指代不满足所欲数据有效性语义的输入框。</li>
+<li>:in-rang指代输入的值在最大最小值之间的输入。</li>
+<li>:out-of-rang指代输入的值小于控件允许的最小值或大于控件允许的最大值的输入框。</li>
+<li>:required 指代必须输入值的输入框。</li>
+<li>:optional指代无需一定输入值的输入框。</li>
+<li>:read-write 指代可由用户编辑的输入框。</li>
+<li>:read-only指代不能由用户编辑的输入框。</li>
+</ul>
+<h3 id="7-5-target伪类"><a href="#7-5-target伪类" class="headerlink" title="7.5:target伪类"></a>7.5:target伪类</h3><p>URL中有个片段标识符，它所指向的是文档片段，称为目标。<br>即网址#号后面对应元素的ID。</p>
+<h3 id="7-6-lang伪类"><a href="#7-6-lang伪类" class="headerlink" title="7.6:lang伪类"></a>7.6:lang伪类</h3><p>:lang伪类比属性lang主要区别是语言信息有多个来源。能匹配设定了语言的元素的后代。</p>
+<h3 id="7-7否定伪类"><a href="#7-7否定伪类" class="headerlink" title="7.7否定伪类"></a>7.7否定伪类</h3><p>:not（）括号里面是简单选择符，没有祖后辈关系的，不能也难怪群组和连接符。</p>
+<h2 id="8-伪元素选择符"><a href="#8-伪元素选择符" class="headerlink" title="8.伪元素选择符"></a>8.伪元素选择符</h2><p>只能出现在选择符的最后面</p>
+<ul>
+<li>::first-letter非行内样式的首字母，或者开头的标点符号和首字母。</li>
+<li>::first-line<br>以上连个伪元素只能应用到块级元素上，能够使用的CSS样式也有限制。</li>
+<li>::before</li>
+<li>::after<br>装饰或者创建前置后置内容元素。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>前端 css3</category>
+      </categories>
+      <tags>
+        <tag>css</tag>
       </tags>
   </entry>
 </search>
