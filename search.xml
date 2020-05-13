@@ -19,7 +19,10 @@
 <li>候选样式表：rel=“alternate stylesheet”，仅当用户选择使用。目前只有Gecko浏览器原生支持。</li>
 </ul>
 <h3 id="1-3-title"><a href="#1-3-title" class="headerlink" title="1.3 title"></a>1.3 title</h3><ul>
-<li>永久样式表：不为样式表设定title属性。<br/><br>首选样式表有title则会出现异常，不同时使用。<h3 id="1-4-import"><a href="#1-4-import" class="headerlink" title="1.4 @import"></a>1.4 @import</h3></li>
+<li>永久样式表：不为样式表设定title属性。<br/></li>
+<li>首选样式表有title则会出现异常，不同时使用。</li>
+</ul>
+<h3 id="1-4-import"><a href="#1-4-import" class="headerlink" title="1.4 @import"></a>1.4 @import</h3><ul>
 <li>@import url() [媒体描述符]?;<ul>
 <li>用在style元素内部，必须放在其他CSS规则前面；</li>
 <li>一个文档可以有多个@import语句，都会使用，而且没有候选样式表。</li>
@@ -31,7 +34,10 @@
 <li>暂时mark*</li>
 </ul>
 <h2 id="2-行内样式"><a href="#2-行内样式" class="headerlink" title="2.行内样式"></a>2.行内样式</h2><ul>
-<li>style属性的值是一系列规则声明。<h2 id="3-厂商前缀"><a href="#3-厂商前缀" class="headerlink" title="3.厂商前缀"></a>3.厂商前缀</h2>浏览器厂商通过它标记实验性或者专属性的属性、值或者内容。<h2 id="4-注释"><a href="#4-注释" class="headerlink" title="4.注释"></a>4.注释</h2></li>
+<li>style属性的值是一系列规则声明。</li>
+</ul>
+<h2 id="3-厂商前缀"><a href="#3-厂商前缀" class="headerlink" title="3.厂商前缀"></a>3.厂商前缀</h2><p>浏览器厂商通过它标记实验性或者专属性的属性、值或者内容。</p>
+<h2 id="4-注释"><a href="#4-注释" class="headerlink" title="4.注释"></a>4.注释</h2><ul>
 <li>/ * * /会被CSS解析器忽视，并不存在。</li>
 </ul>
 <h2 id="5-媒体查询"><a href="#5-媒体查询" class="headerlink" title="5.媒体查询"></a>5.媒体查询</h2><p>定义浏览器在何种媒体环境使用指定的样式表：</p>
@@ -82,9 +88,12 @@
 </li>
 <li>3.通过cnpm使用<ul>
 <li>npm install -g cnpm –registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="noopener">https://registry.npm.taobao.org</a>  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 使用cnpm install package-name</span><br></pre></td></tr></table></figure>
-<h2 id="3-atom使用淘宝镜像"><a href="#3-atom使用淘宝镜像" class="headerlink" title="3.atom使用淘宝镜像"></a>3.atom使用淘宝镜像</h2></li>
+
+</li>
 </ul>
 </li>
+</ul>
+<h2 id="3-atom使用淘宝镜像"><a href="#3-atom使用淘宝镜像" class="headerlink" title="3.atom使用淘宝镜像"></a>3.atom使用淘宝镜像</h2><ul>
 <li>使用apm替换源：apm config set registry –registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="noopener">https://registry.npm.taobao.org</a> </li>
 <li>检查是否配置成功 apm install –check</li>
 </ul>
@@ -148,28 +157,38 @@
 <h3 id="7-1拼接伪类"><a href="#7-1拼接伪类" class="headerlink" title="7.1拼接伪类"></a>7.1拼接伪类</h3><p>允许把伪类串接在一起，<code>伪类始终指代依附的元素</code>。</p>
 <h3 id="7-2结构伪类"><a href="#7-2结构伪类" class="headerlink" title="7.2结构伪类"></a>7.2结构伪类</h3><p>伪类大多是结构上的，即它们指代文档中的标记结构。</p>
 <ul>
-<li>:root 选择文档的根元素。</li>
-<li>:empty选择没有子代元素，包括文本节点（空白/换行），是到2017年位置唯一考虑文本节点的伪类。<ul>
+<li><p>:root 选择文档的根元素。</p>
+</li>
+<li><p>:empty选择没有子代元素，包括文本节点（空白/换行），是到2017年位置唯一考虑文本节点的伪类。</p>
+<ul>
 <li>img input textarea</li>
 </ul>
 </li>
-</ul>
-<p>===============================================</p>
+<li><p>:only-child 匹配完全没有同胞的元素。 </p>
+</li>
+<li><p>:only-of-type 匹配通报中唯一种类的那种元素。</p>
+</li>
+<li><p>:first-child 匹配第一个子元素</p>
+</li>
+<li><p>:last-child匹配最后一个子元素</p>
+</li>
+<li><p>:first-child:last-child=:only-child</p>
+</li>
+<li><p>:first-of-type匹配第一个某种元素</p>
+</li>
+<li><p>:last-of-type匹配最后一个某种元素</p>
+</li>
+<li><p>:nth-child(an+b)选择每n个元素(an+b&gt;=1)</p>
 <ul>
-<li>:only-child 匹配完全没有同胞的元素。 </li>
-<li>:only-of-type 匹配通报中唯一种类的那种元素。</li>
-<li>:first-child 匹配第一个子元素</li>
-<li>:last-child匹配最后一个子元素</li>
-<li>:first-child:last-child=:only-child</li>
-<li>:first-of-type匹配第一个某种元素</li>
-<li>:last-of-type匹配最后一个某种元素</li>
-<li>:nth-child(an+b)选择每n个元素(an+b&gt;=1)<ul>
 <li>可以使用even偶数和odd奇数俩个关键字</li>
 </ul>
 </li>
-<li>:nth-last-child()从后往前数</li>
-<li>:nth-of-type选择每第n个某种元素</li>
-<li>:nth-last-of-type</li>
+<li><p>:nth-last-child()从后往前数</p>
+</li>
+<li><p>:nth-of-type选择每第n个某种元素</p>
+</li>
+<li><p>:nth-last-of-type</p>
+</li>
 </ul>
 <h3 id="7-3动态伪类"><a href="#7-3动态伪类" class="headerlink" title="7.3动态伪类"></a>7.3动态伪类</h3><ul>
 <li><p>超链接伪类</p>
@@ -464,10 +483,12 @@
 <li>chown -R mongod:mongod /var/lib/mongo</li>
 </ul>
 </li>
-<li><a href="https://www.jianshu.com/p/36150c09838b" target="_blank" rel="noopener">https://www.jianshu.com/p/36150c09838b</a> ；systemctl 指令 <h2 id="2-mongoose的使用"><a href="#2-mongoose的使用" class="headerlink" title="2.mongoose的使用"></a>2.mongoose的使用</h2></li>
-<li>db.js</li>
+<li><a href="https://www.jianshu.com/p/36150c09838b" target="_blank" rel="noopener">https://www.jianshu.com/p/36150c09838b</a> ；systemctl 指令 </li>
 </ul>
 </li>
+</ul>
+<h2 id="2-mongoose的使用"><a href="#2-mongoose的使用" class="headerlink" title="2.mongoose的使用"></a>2.mongoose的使用</h2><ul>
+<li>db.js</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const mongoose &#x3D; require(&#39;mongoose&#39;);</span><br><span class="line">mongoose.connect(&#39;mongodb:&#x2F;&#x2F;localhost:27017&#x2F;users&#39;,&#123;useUnifiedTopology: true,useNewUrlParser: true&#125;);</span><br><span class="line">const db&#x3D; mongoose.connection;</span><br><span class="line">mongoose.Promise&#x3D;global.Promise;</span><br><span class="line">db.on(&#39;open&#39;,()&#x3D;&gt;&#123;console.log(&#39;连接成功&#39;)&#125;);</span><br><span class="line">db.on(&#39;error&#39;,()&#x3D;&gt;&#123;console.log(&#39;连接失败&#39;)&#125;);</span><br><span class="line">module.exports&#x3D;&#123;mongoose&#125;;</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line"></span><br><span class="line">const  mongoose &#x3D; require(&quot;.&#x2F;index&quot;);</span><br><span class="line">const Schema &#x3D; mongoose.Schema;</span><br><span class="line"></span><br><span class="line">var UserSchema &#x3D; new Schema(&#123;</span><br><span class="line">    name: &#123;type: String&#125;,</span><br><span class="line">    mobile: &#123;type: String&#125;,</span><br><span class="line">    pwd: &#123;type: String&#125;</span><br><span class="line">&#125;);</span><br><span class="line">module.exports &#x3D; mongoose.model(&#39;User&#39;, UserSchema);</span><br><span class="line">);</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
@@ -504,10 +525,7 @@
 </ul>
 <h2 id="2-pm2"><a href="#2-pm2" class="headerlink" title="2.pm2"></a>2.pm2</h2><p>pm2 是为 Node.js 线上应用设计的进程管理器<br>npm install pm2 -g<br>ln -s （pm2的安装路径） /usr/local/bin/<br>pm2 list （看是否显示进程，如果是则显示表示安装成功）</p>
 <h2 id="3-部署到nginx上面"><a href="#3-部署到nginx上面" class="headerlink" title="3.部署到nginx上面"></a>3.部署到nginx上面</h2><p>在/etc/nginx/nginx.conf 修改一部分，增加一部分<br>server {<br>  listen 80;<br>  server_name ip地址;<br>  location / {<br>        proxy_pass <a href="http://ip地址：3000">http://ip地址：3000</a>;<br>    proxy_set_header X-Real-IP $remote_addr;<br>    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;<br>    proxy_set_header Host $http_host;<br>    proxy_set_header X-Nginx-Proxy true;<br>    proxy_redirect off;<br>  }<br>}</p>
-<h2 id="4-koa"><a href="#4-koa" class="headerlink" title="4.koa"></a>4.koa</h2><ul>
-<li><a href="https://www.jianshu.com/p/4479dda7912a" target="_blank" rel="noopener">https://www.jianshu.com/p/4479dda7912a</a></li>
-</ul>
-]]></content>
+<h2 id="4-koa"><a href="#4-koa" class="headerlink" title="4.koa"></a>4.koa</h2>]]></content>
       <categories>
         <category>后端 语言</category>
       </categories>
