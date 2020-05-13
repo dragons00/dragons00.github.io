@@ -279,4 +279,331 @@
         <tag>css</tag>
       </tags>
   </entry>
+  <entry>
+    <title>1.CentOS+nginx+Mongodb+Node之CentOS篇</title>
+    <url>/2020/05/07/centos-nginx-mongodb-node/1.centos/</url>
+    <content><![CDATA[<p>本文是构建CentOS+Nginx+Mongodb+Node之CentOS篇知识的整理，主要集中于Linux的学习。</p>
+<a id="more"></a>
+<h2 id="0-参考"><a href="#0-参考" class="headerlink" title="0.参考"></a>0.参考</h2><ul>
+<li>1.王军-2013-12：Linux系统命令及Shell脚本实践指南；</li>
+<li>2.KyleBing-简书：<a href="https://segmentfault.com/a/1190000016056004" target="_blank" rel="noopener">https://segmentfault.com/a/1190000016056004</a></li>
+<li>3.简明教程：<a href="https://www.jmjc.tech/less/137" target="_blank" rel="noopener">https://www.jmjc.tech/less/137</a></li>
+</ul>
+<h2 id="1-Linux简介"><a href="#1-Linux简介" class="headerlink" title="1.Linux简介"></a>1.Linux简介</h2><h3 id="1-1Linux的简介"><a href="#1-1Linux的简介" class="headerlink" title="1.1Linux的简介"></a>1.1Linux的简介</h3><ul>
+<li>1991年，芬兰人Linus Torvalds（Linux之父），发布Linux0.01版本。</li>
+<li>Linux，据发明者公开说明，读音为“哩呐科斯”，是一种类Unix系统。</li>
+</ul>
+<h3 id="1-2Linux部分特点"><a href="#1-2Linux部分特点" class="headerlink" title="1.2Linux部分特点"></a>1.2Linux部分特点</h3><ul>
+<li>免费开源。</li>
+<li>模块化程度高。Linux的内核设计分为进程管理、内存管理、进程间通信、虚拟文件系统、网络5部分。</li>
+<li>多用户，多任务。</li>
+</ul>
+<h3 id="1-3Linux的发行版"><a href="#1-3Linux的发行版" class="headerlink" title="1.3Linux的发行版"></a>1.3Linux的发行版</h3><ul>
+<li>不同发行版本之间的差别在于软件管理的不同，而其内核都来自Linux内核。（<a href="http://www.kernel.org）" target="_blank" rel="noopener">www.kernel.org）</a></li>
+<li>在安装Linux时，必须有两个分区：根分区（/）和swap分区（交换分区）。<ul>
+<li>交换分区：相当于windows的虚拟内存，一般为物理内存的两倍，但建议不超过8GB，因为影响性能。</li>
+</ul>
+</li>
+<li>Grub：是一个系统引导工具，通过它加载内核，从而引导系统启动。</li>
+<li>/boot分区：用于放置Linux启动所用到的文件，如kernel和initrd文件。</li>
+<li>安装系统分为图形安装模式和字符安装模式。</li>
+</ul>
+<h3 id="1-4系统登陆"><a href="#1-4系统登陆" class="headerlink" title="1.4系统登陆"></a>1.4系统登陆</h3><ul>
+<li>终端登录<ul>
+<li>tty：Teletype</li>
+</ul>
+</li>
+<li>登陆界面的行头标识：<ul>
+<li>“~”是用户home目录/用户家目录的简写。</li>
+<li>“#”是提示符，表示当前用户是有超级权限的root用户，“$”代表一般用户。</li>
+</ul>
+</li>
+<li>初试指令<ul>
+<li>编辑vim test:1.Shift+g(大写字母G)，跳转文档最后一行；按o键，在光标所在行另起一行，并进入编辑模式；按ESC退出编辑模式，按冒号键，输入字母x，按回车，保存退出。</li>
+<li>编辑vim test:2.按i键，进入编辑模式；：wq保存退出。</li>
+<li>显示日期：date</li>
+<li>列出目录内容：ls</li>
+<li>显示文件内容：cat</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-5系统启动流程"><a href="#1-5系统启动流程" class="headerlink" title="1.5系统启动流程"></a>1.5系统启动流程</h3><h3 id="1-6获得帮助"><a href="#1-6获得帮助" class="headerlink" title="1.6获得帮助"></a>1.6获得帮助</h3><ul>
+<li>man</li>
+<li>info</li>
+<li>其他</li>
+</ul>
+<h2 id="2-Linux用户管理"><a href="#2-Linux用户管理" class="headerlink" title="2.Linux用户管理"></a>2.Linux用户管理</h2><p>Linux是一个多用户分时系统。</p>
+<h3 id="2-1Linux用户和用户组"><a href="#2-1Linux用户和用户组" class="headerlink" title="2.1Linux用户和用户组"></a>2.1Linux用户和用户组</h3><p>Linux采用一个32位整数记录不同用户，可以记录多达40亿个不同用户，这个数字称为UID(User ID)。</p>
+<ul>
+<li>Linux系统有三种用户：<ul>
+<li>普通用户：系统默认用户ID从500开始编号，操作权限：家目录，系统临时目录，属于该用户的文件，以及其他经过授权的文件。</li>
+<li>根用户：root用户，ID为0，超级用户。</li>
+<li>系统用户：系统运行时必须有的用户，非真实使用者。ID是1~499，例如用户apache，用户mysql。</li>
+</ul>
+</li>
+<li>Linux有用户组，也用数字区分，称为Group ID，简称GID。</li>
+<li>确认UID指令：id；确认GID指令：groups。</li>
+<li>查询当前在线用户：who</li>
+<li>tty：终端；pty：虚拟终端，pts（pseudo terminal slave）是pty（pseudo-tty）的实现方法，和ptmx（pseudo-termianl master）配合实现pty。pts：伪终端，如远程登陆访问终端。</li>
+<li>/etc/passwd和etc/shadow<ul>
+<li>/etc/passwd：</li>
+<li>/etc/shadow：影子密码</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2Linux账号管理"><a href="#2-2Linux账号管理" class="headerlink" title="2.2Linux账号管理"></a>2.2Linux账号管理</h3><ul>
+<li>1.新增用户：useradd -u UID -g Group-string name-string<ul>
+<li>1.在/etc/passwd和/etc/shadow添加一条记录；</li>
+<li>2.在/home创建用户的家目录，/home/name-string；</li>
+<li>3.复制/etc/skel（用户创建模板）所有文件到 /home/name-string；</li>
+<li>4.创建同名用户组。</li>
+<li>注释：/etc/skel预设的用户配置文件。</li>
+</ul>
+</li>
+<li>2.修改密码：password name-string<ul>
+<li>用户创建后，/etc/shadow 以冒号分隔开的第二列将显示为两个感叹号，表示不允许该用户登陆系统。</li>
+<li>普通用户只能修改自己的密码，直接使用password即可。</li>
+</ul>
+</li>
+<li>3.修改用户：usermod<ul>
+<li>对/etc/passwd和/etc/shadow进行修改。</li>
+<li>参数 -d /home/string ，修改家目录。 -L name-string，冻结用户；-U name-string，解冻用户。</li>
+</ul>
+</li>
+<li>4.删除用户：userdel<ul>
+<li>加-r参数会同时删掉该用户的家目录和邮件。</li>
+</ul>
+</li>
+<li>5.增加用户组：groupadd<ul>
+<li>/etc/group</li>
+</ul>
+</li>
+<li>6.删除用户组：groupdel<ul>
+<li>如果用户组不为空，则失败。</li>
+</ul>
+</li>
+<li>7.检查用户信息<ul>
+<li>1.查看用户：users、who、w</li>
+<li>2.调查用户：finger [用户名]?</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-3切换用户"><a href="#2-3切换用户" class="headerlink" title="2.3切换用户"></a>2.3切换用户</h3><ul>
+<li>su <ul>
+<li>不加参数默认切换到root用户，输入密码切换。exit退回原用户。根用户不需要密码。</li>
+</ul>
+</li>
+<li>su-<ul>
+<li>不但身份变成root，还能应用root的用户环境，即/etc/passwd定义的用户家目录，使用的shell，以及关于这个用户的个性化设置。</li>
+</ul>
+</li>
+<li>sudo 执行命令<ul>
+<li>首先检查/etc/sudoers，判断该用户是否有sudo执行权限。</li>
+<li>使用visudo，可以在退出时候检查语法设置。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-4例行任务管理"><a href="#2-4例行任务管理" class="headerlink" title="2.4例行任务管理"></a>2.4例行任务管理</h3><ul>
+<li>1.cron</li>
+<li>2.at</li>
+</ul>
+<h2 id="3-Linux文件管理"><a href="#3-Linux文件管理" class="headerlink" title="3.Linux文件管理"></a>3.Linux文件管理</h2><h3 id="3-1文件和目录管理"><a href="#3-1文件和目录管理" class="headerlink" title="3.1文件和目录管理"></a>3.1文件和目录管理</h3><ul>
+<li>FHS（文件系统层次标准）定义了在根目录下的主要目录以及每个目录应该存放什么文件。</li>
+</ul>
+<h3 id="3-2文件和目录权限"><a href="#3-2文件和目录权限" class="headerlink" title="3.2文件和目录权限"></a>3.2文件和目录权限</h3><h3 id="3-3查找文件"><a href="#3-3查找文件" class="headerlink" title="3.3查找文件"></a>3.3查找文件</h3><h3 id="3-4文件压缩和打包"><a href="#3-4文件压缩和打包" class="headerlink" title="3.4文件压缩和打包"></a>3.4文件压缩和打包</h3><h2 id="4-Linux文件系统"><a href="#4-Linux文件系统" class="headerlink" title="4.Linux文件系统"></a>4.Linux文件系统</h2><h2 id="5-字符处理"><a href="#5-字符处理" class="headerlink" title="5.字符处理"></a>5.字符处理</h2><h2 id="6-网络管理"><a href="#6-网络管理" class="headerlink" title="6.网络管理"></a>6.网络管理</h2><h2 id="7-进程管理"><a href="#7-进程管理" class="headerlink" title="7.进程管理"></a>7.进程管理</h2><h2 id="8-Linux下的软件安装"><a href="#8-Linux下的软件安装" class="headerlink" title="8.Linux下的软件安装"></a>8.Linux下的软件安装</h2><h2 id="9-vi和vim编辑器"><a href="#9-vi和vim编辑器" class="headerlink" title="9.vi和vim编辑器"></a>9.vi和vim编辑器</h2><h3 id="9-1vi和vim简介"><a href="#9-1vi和vim简介" class="headerlink" title="9.1vi和vim简介"></a>9.1vi和vim简介</h3><ul>
+<li>vi-Visual Interface，是Linux最基本的文本编辑器。</li>
+<li>vim，是vi的加强版。</li>
+</ul>
+<h3 id="9-2vi编辑器"><a href="#9-2vi编辑器" class="headerlink" title="9.2vi编辑器"></a>9.2vi编辑器</h3><ul>
+<li>三种模式介绍：一般、编辑、末行指令<ul>
+<li>一般模式，移动光标。</li>
+<li>编辑模式，按i键进入，按ESC键退出。</li>
+<li>末行指令模式，按：冒号键|斜杠键/|或问号键？|，进入。</li>
+</ul>
+</li>
+</ul>
+<h3 id="9-3vim编辑器"><a href="#9-3vim编辑器" class="headerlink" title="9.3vim编辑器"></a>9.3vim编辑器</h3><ul>
+<li>支持多行编辑</li>
+</ul>
+<h3 id="9-4gedit编辑器"><a href="#9-4gedit编辑器" class="headerlink" title="9.4gedit编辑器"></a>9.4gedit编辑器</h3><ul>
+<li>桌面环境的编辑器</li>
+</ul>
+<h2 id="10-正则表达式"><a href="#10-正则表达式" class="headerlink" title="10.正则表达式"></a>10.正则表达式</h2><h2 id="11-shell编程概述"><a href="#11-shell编程概述" class="headerlink" title="11.shell编程概述"></a>11.shell编程概述</h2><h2 id="12-Bash-Shell的安装"><a href="#12-Bash-Shell的安装" class="headerlink" title="12.Bash Shell的安装"></a>12.Bash Shell的安装</h2><h2 id="13-Shell编程基础"><a href="#13-Shell编程基础" class="headerlink" title="13.Shell编程基础"></a>13.Shell编程基础</h2><h2 id="14-测试和判断"><a href="#14-测试和判断" class="headerlink" title="14.测试和判断"></a>14.测试和判断</h2><h2 id="15-循环"><a href="#15-循环" class="headerlink" title="15.循环"></a>15.循环</h2><h2 id="16-函数"><a href="#16-函数" class="headerlink" title="16.函数"></a>16.函数</h2><h2 id="17-重定向"><a href="#17-重定向" class="headerlink" title="17.重定向"></a>17.重定向</h2><h2 id="18-脚本范例"><a href="#18-脚本范例" class="headerlink" title="18.脚本范例"></a>18.脚本范例</h2>]]></content>
+      <categories>
+        <category>后端 系统</category>
+      </categories>
+      <tags>
+        <tag>CentOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2.CentOS+Nginx+Mongodb+Node之Nginx篇</title>
+    <url>/2020/05/07/centos-nginx-mongodb-node/2.nginx/</url>
+    <content><![CDATA[<p>本文是构建CentOS+Nginx+Mongodb+Node之Nginx篇知识的整理。</p>
+<a id="more"></a>
+<h2 id="1-Linux下安装nginx"><a href="#1-Linux下安装nginx" class="headerlink" title="1.Linux下安装nginx"></a>1.Linux下安装nginx</h2><ul>
+<li>第一步：yum update&amp;&amp; yum install yum-utils</li>
+<li>第二步：参考官网,在yum源配置里/etc/yum.repos.d新增nginx.repo<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[nginx-stable]</span><br><span class="line">name&#x3D;nginx stable repo</span><br><span class="line">baseurl&#x3D;http:&#x2F;&#x2F;nginx.org&#x2F;packages&#x2F;centos&#x2F;$releasever&#x2F;$basearch&#x2F;</span><br><span class="line">gpgcheck&#x3D;1</span><br><span class="line">enabled&#x3D;1</span><br><span class="line">gpgkey&#x3D;https:&#x2F;&#x2F;nginx.org&#x2F;keys&#x2F;nginx_signing.key</span><br><span class="line">module_hotfixes&#x3D;true</span><br><span class="line"></span><br><span class="line">[nginx-mainline]</span><br><span class="line">name&#x3D;nginx mainline repo</span><br><span class="line">baseurl&#x3D;http:&#x2F;&#x2F;nginx.org&#x2F;packages&#x2F;mainline&#x2F;centos&#x2F;$releasever&#x2F;$basearch&#x2F;</span><br><span class="line">gpgcheck&#x3D;1</span><br><span class="line">enabled&#x3D;0</span><br><span class="line">gpgkey&#x3D;https:&#x2F;&#x2F;nginx.org&#x2F;keys&#x2F;nginx_signing.key</span><br><span class="line">module_hotfixes&#x3D;true</span><br></pre></td></tr></table></figure></li>
+<li>第三步：yum install nginx</li>
+<li>第四步：检查nginx -v ，和官网对比。</li>
+</ul>
+<h2 id="2-Linux下nginx的设置"><a href="#2-Linux下nginx的设置" class="headerlink" title="2.Linux下nginx的设置"></a>2.Linux下nginx的设置</h2><ul>
+<li>1.安装nginx<ul>
+<li>sudo yum install -y nginx</li>
+</ul>
+</li>
+<li>2.启动nginx<ul>
+<li>sudo systemctl start nginx.service</li>
+</ul>
+</li>
+<li>3.设置开机启动<ul>
+<li>sudo systemctl enable nginx.service</li>
+</ul>
+</li>
+<li>4.Nginx配置信息<ul>
+<li>1.网站文件存放默认目录<ul>
+<li>/usr/share/nginx/html</li>
+</ul>
+</li>
+<li>2.网站默认站点配置<ul>
+<li>/etc/nginx/conf.d/default.conf</li>
+</ul>
+</li>
+<li>3.自定义Nginx站点配置文件存放目录<ul>
+<li>/etc/nginx/conf.d/</li>
+</ul>
+</li>
+<li>4.Nginx全局配置<ul>
+<li>/etc/nginx/nginx.conf</li>
+<li>/etc/nginx/nginx.conf.default</li>
+</ul>
+</li>
+<li>5Nginx启动<ul>
+<li>nginx -c nginx.conf</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>后端 服务器</category>
+      </categories>
+      <tags>
+        <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>3.CentOS+Nginx+Mongodb+node之Mongodb篇</title>
+    <url>/2020/05/07/centos-nginx-mongodb-node/3.mongodb/</url>
+    <content><![CDATA[<p>本文是最构建CentOS+Nginx+Mongodb+Node之Mongodb篇知识的整理。</p>
+<a id="more"></a>
+<h2 id="0-参考"><a href="#0-参考" class="headerlink" title="0.参考"></a>0.参考</h2><ul>
+<li>1.茅坑里的小石头-简书：<a href="https://www.jianshu.com/p/d0755bed048b；" target="_blank" rel="noopener">https://www.jianshu.com/p/d0755bed048b；</a></li>
+</ul>
+<h2 id="1-安装"><a href="#1-安装" class="headerlink" title="1.安装"></a>1.安装</h2><ul>
+<li>1.配置mongodb-org</li>
+<li>2.yum install -y mongodb-org</li>
+<li>3.systemctl start mongod<ul>
+<li>检查log验证：tail /var/log/mongodb/mongod.log</li>
+</ul>
+</li>
+<li>4.systemctl enable mongod</li>
+<li>5.坑：<ul>
+<li>Failed to unlink socket file /tmp/mongodb-27017.sock errno:1 Operation not permitted<ul>
+<li>删除/tmp/mongodb-27017.sock。</li>
+</ul>
+</li>
+<li>ERROR: child process failed, exited with error number 14<ul>
+<li>到dbpath里边的mongod.lock文件，并删除mongod.lock,删掉原来log目录里的所有文件就可以</li>
+</ul>
+</li>
+<li>Failed global initialization: FileNotOpen: Failed to open “/var/log/mongodb/<ul>
+<li>权限问题</li>
+<li>chown -R mongod:mongod /var/lib/mongo</li>
+</ul>
+</li>
+<li><a href="https://www.jianshu.com/p/36150c09838b" target="_blank" rel="noopener">https://www.jianshu.com/p/36150c09838b</a> ；systemctl 指令 <h2 id="2-mongoose的使用"><a href="#2-mongoose的使用" class="headerlink" title="2.mongoose的使用"></a>2.mongoose的使用</h2></li>
+<li>db.js</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const mongoose &#x3D; require(&#39;mongoose&#39;);</span><br><span class="line">mongoose.connect(&#39;mongodb:&#x2F;&#x2F;localhost:27017&#x2F;users&#39;,&#123;useUnifiedTopology: true,useNewUrlParser: true&#125;);</span><br><span class="line">const db&#x3D; mongoose.connection;</span><br><span class="line">mongoose.Promise&#x3D;global.Promise;</span><br><span class="line">db.on(&#39;open&#39;,()&#x3D;&gt;&#123;console.log(&#39;连接成功&#39;)&#125;);</span><br><span class="line">db.on(&#39;error&#39;,()&#x3D;&gt;&#123;console.log(&#39;连接失败&#39;)&#125;);</span><br><span class="line">module.exports&#x3D;&#123;mongoose&#125;;</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line"></span><br><span class="line">const  mongoose &#x3D; require(&quot;.&#x2F;index&quot;);</span><br><span class="line">const Schema &#x3D; mongoose.Schema;</span><br><span class="line"></span><br><span class="line">var UserSchema &#x3D; new Schema(&#123;</span><br><span class="line">    name: &#123;type: String&#125;,</span><br><span class="line">    mobile: &#123;type: String&#125;,</span><br><span class="line">    pwd: &#123;type: String&#125;</span><br><span class="line">&#125;);</span><br><span class="line">module.exports &#x3D; mongoose.model(&#39;User&#39;, UserSchema);</span><br><span class="line">);</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>后端 数据库</category>
+      </categories>
+      <tags>
+        <tag>Mongodb</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>4.CentOS+Nginx+Mongodb+Node之Node篇</title>
+    <url>/2020/05/07/centos-nginx-mongodb-node/4.node/</url>
+    <content><![CDATA[<p>本文是最构建CentOS+Nginx+Mongodb+Node之Node篇知识的整理。</p>
+<a id="more"></a>
+<h2 id="0-参考"><a href="#0-参考" class="headerlink" title="0.参考"></a>0.参考</h2><ul>
+<li>alipy_258-简书：<a href="https://www.jianshu.com/p/e30bc6b8770f?from=timeline&amp;isappinstalled=0；" target="_blank" rel="noopener">https://www.jianshu.com/p/e30bc6b8770f?from=timeline&amp;isappinstalled=0；</a></li>
+<li><a href="https://www.cnblogs.com/654321cc/p/9261236.html；" target="_blank" rel="noopener">https://www.cnblogs.com/654321cc/p/9261236.html；</a></li>
+</ul>
+<h2 id="1-n-nvm"><a href="#1-n-nvm" class="headerlink" title="1.n/nvm"></a>1.n/nvm</h2><ul>
+<li>n 其实是一个 npm 全局的开源包 ,是依赖 npm 来全局安装、使用的，比较轻巧，n 是 node 里面的一个模块，电脑如果没有安装node 或者 npm，n就无法使用</li>
+<li>nvm 全称 Node Version Manager，nvm 是一个独立软件包，相比 n 会复杂点，它是通过 shell 脚本实现的。</li>
+</ul>
+<h3 id="1-1安装nvm"><a href="#1-1安装nvm" class="headerlink" title="1.1安装nvm"></a>1.1安装nvm</h3><ul>
+<li>1.curl -o- <a href="https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh" target="_blank" rel="noopener">https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh</a> | bash<ul>
+<li>坑1：<ul>
+<li>sudo vi /etc/hosts </li>
+<li>199.232.68.133 raw.githubusercontent.com</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>2.source ~/.bashrc</li>
+<li>3.nvm install –lts</li>
+</ul>
+<h2 id="2-pm2"><a href="#2-pm2" class="headerlink" title="2.pm2"></a>2.pm2</h2><p>pm2 是为 Node.js 线上应用设计的进程管理器<br>npm install pm2 -g<br>ln -s （pm2的安装路径） /usr/local/bin/<br>pm2 list （看是否显示进程，如果是则显示表示安装成功）</p>
+<h2 id="3-部署到nginx上面"><a href="#3-部署到nginx上面" class="headerlink" title="3.部署到nginx上面"></a>3.部署到nginx上面</h2><p>在/etc/nginx/nginx.conf 修改一部分，增加一部分<br>server {<br>  listen 80;<br>  server_name ip地址;<br>  location / {<br>        proxy_pass <a href="http://ip地址：3000">http://ip地址：3000</a>;<br>    proxy_set_header X-Real-IP $remote_addr;<br>    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;<br>    proxy_set_header Host $http_host;<br>    proxy_set_header X-Nginx-Proxy true;<br>    proxy_redirect off;<br>  }<br>}</p>
+<h2 id="4-koa"><a href="#4-koa" class="headerlink" title="4.koa"></a>4.koa</h2><ul>
+<li><a href="https://www.jianshu.com/p/4479dda7912a" target="_blank" rel="noopener">https://www.jianshu.com/p/4479dda7912a</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>后端 语言</category>
+      </categories>
+      <tags>
+        <tag>Node</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vscode</title>
+    <url>/2020/05/13/vscode/vscode/</url>
+    <content><![CDATA[<a id="more"></a>
+<h2 id="1-配置编辑器的config"><a href="#1-配置编辑器的config" class="headerlink" title="1.配置编辑器的config"></a>1.配置编辑器的config</h2><ul>
+<li>1.创建.editorconfig</li>
+<li>2.编辑<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#editorconfig配置文件是utf-8字符集编码，以回车换行或换行作为一行的分隔符</span><br><span class="line"># &#x2F;被用作一个路径的分隔符，#和;被用作注释，注释符号和注释需要在同一行</span><br><span class="line"># top-most EditorConfig file 表示是最顶层的配置文件，发现设为true时候，才会停止查找.editorconfig文件</span><br><span class="line">root&#x3D;true</span><br><span class="line">[*]</span><br><span class="line">charset &#x3D; utf-8</span><br><span class="line">#设置换行符，值为lf,cr,crlf</span><br><span class="line">end_of_line&#x3D;lf</span><br><span class="line">#设置缩进风格</span><br><span class="line">indent_style &#x3D; space</span><br><span class="line">indent_size &#x3D; 2</span><br><span class="line"># 文件以一个空白行结尾</span><br><span class="line">insert_final_newline&#x3D;true</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>tool vscode</category>
+      </categories>
+      <tags>
+        <tag>vscode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vue</title>
+    <url>/2020/05/13/vue/vue/</url>
+    <content><![CDATA[<a id="more"></a>
+<h2 id="vue配置"><a href="#vue配置" class="headerlink" title="vue配置"></a>vue配置</h2><ul>
+<li>1.创建vue.config.js</li>
+<li>2.编辑<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">module.exports&#x3D;&#123;</span><br><span class="line">  configureWebpack:&#123;</span><br><span class="line">    resolve:&#123;</span><br><span class="line">      alias:&#123;</span><br><span class="line">        &#39;assets&#39;:&#39;@&#x2F;assets&#39;,</span><br><span class="line">        &#39;components&#39;:&#39;@&#x2F;components&#39;,</span><br><span class="line">        &#39;views&#39;:&#39;@&#x2F;views&#39;,</span><br><span class="line">        &#39;network&#39;:&#39;@&#x2F;network&#39;,</span><br><span class="line">        &#39;common&#39;:&#39;@&#x2F;common&#39;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>vue config</category>
+      </categories>
+      <tags>
+        <tag>vue</tag>
+      </tags>
+  </entry>
 </search>

@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dragons00.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文是构建CentOS+Nginx+Mongodb+Node之CentOS篇知识的整理，主要集中于Linux的学习。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1.CentOS+nginx+Mongodb+Node之CentOS篇">
+<meta property="og:url" content="https://dragons00.github.io/2020/05/07/centos-nginx-mongodb-node/1.centos/index.html">
+<meta property="og:site_name" content="语轩">
+<meta property="og:description" content="本文是构建CentOS+Nginx+Mongodb+Node之CentOS篇知识的整理，主要集中于Linux的学习。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-07T12:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-13T09:34:00.228Z">
+<meta property="article:author" content="dragons00">
+<meta property="article:tag" content="CentOS">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://dragons00.github.io/2020/05/07/centos-nginx-mongodb-node/1.centos/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>1.CentOS+nginx+Mongodb+Node之CentOS篇 | 语轩</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">语轩</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dragons00.github.io/2020/05/07/centos-nginx-mongodb-node/1.centos/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="dragons00">
+      <meta itemprop="description" content="npm,html,css,javascript,前端">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="语轩">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          1.CentOS+nginx+Mongodb+Node之CentOS篇
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-07 20:00:00" itemprop="dateCreated datePublished" datetime="2020-05-07T20:00:00+08:00">2020-05-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-13 17:34:00" itemprop="dateModified" datetime="2020-05-13T17:34:00+08:00">2020-05-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF-%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">后端 系统</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/05/07/centos-nginx-mongodb-node/1.centos/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/07/centos-nginx-mongodb-node/1.centos/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文是构建CentOS+Nginx+Mongodb+Node之CentOS篇知识的整理，主要集中于Linux的学习。</p>
+<a id="more"></a>
+<h2 id="0-参考"><a href="#0-参考" class="headerlink" title="0.参考"></a>0.参考</h2><ul>
+<li>1.王军-2013-12：Linux系统命令及Shell脚本实践指南；</li>
+<li>2.KyleBing-简书：<a href="https://segmentfault.com/a/1190000016056004" target="_blank" rel="noopener">https://segmentfault.com/a/1190000016056004</a></li>
+<li>3.简明教程：<a href="https://www.jmjc.tech/less/137" target="_blank" rel="noopener">https://www.jmjc.tech/less/137</a></li>
+</ul>
+<h2 id="1-Linux简介"><a href="#1-Linux简介" class="headerlink" title="1.Linux简介"></a>1.Linux简介</h2><h3 id="1-1Linux的简介"><a href="#1-1Linux的简介" class="headerlink" title="1.1Linux的简介"></a>1.1Linux的简介</h3><ul>
+<li>1991年，芬兰人Linus Torvalds（Linux之父），发布Linux0.01版本。</li>
+<li>Linux，据发明者公开说明，读音为“哩呐科斯”，是一种类Unix系统。</li>
+</ul>
+<h3 id="1-2Linux部分特点"><a href="#1-2Linux部分特点" class="headerlink" title="1.2Linux部分特点"></a>1.2Linux部分特点</h3><ul>
+<li>免费开源。</li>
+<li>模块化程度高。Linux的内核设计分为进程管理、内存管理、进程间通信、虚拟文件系统、网络5部分。</li>
+<li>多用户，多任务。</li>
+</ul>
+<h3 id="1-3Linux的发行版"><a href="#1-3Linux的发行版" class="headerlink" title="1.3Linux的发行版"></a>1.3Linux的发行版</h3><ul>
+<li>不同发行版本之间的差别在于软件管理的不同，而其内核都来自Linux内核。（<a href="http://www.kernel.org）" target="_blank" rel="noopener">www.kernel.org）</a></li>
+<li>在安装Linux时，必须有两个分区：根分区（/）和swap分区（交换分区）。<ul>
+<li>交换分区：相当于windows的虚拟内存，一般为物理内存的两倍，但建议不超过8GB，因为影响性能。</li>
+</ul>
+</li>
+<li>Grub：是一个系统引导工具，通过它加载内核，从而引导系统启动。</li>
+<li>/boot分区：用于放置Linux启动所用到的文件，如kernel和initrd文件。</li>
+<li>安装系统分为图形安装模式和字符安装模式。</li>
+</ul>
+<h3 id="1-4系统登陆"><a href="#1-4系统登陆" class="headerlink" title="1.4系统登陆"></a>1.4系统登陆</h3><ul>
+<li>终端登录<ul>
+<li>tty：Teletype</li>
+</ul>
+</li>
+<li>登陆界面的行头标识：<ul>
+<li>“~”是用户home目录/用户家目录的简写。</li>
+<li>“#”是提示符，表示当前用户是有超级权限的root用户，“$”代表一般用户。</li>
+</ul>
+</li>
+<li>初试指令<ul>
+<li>编辑vim test:1.Shift+g(大写字母G)，跳转文档最后一行；按o键，在光标所在行另起一行，并进入编辑模式；按ESC退出编辑模式，按冒号键，输入字母x，按回车，保存退出。</li>
+<li>编辑vim test:2.按i键，进入编辑模式；：wq保存退出。</li>
+<li>显示日期：date</li>
+<li>列出目录内容：ls</li>
+<li>显示文件内容：cat</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-5系统启动流程"><a href="#1-5系统启动流程" class="headerlink" title="1.5系统启动流程"></a>1.5系统启动流程</h3><h3 id="1-6获得帮助"><a href="#1-6获得帮助" class="headerlink" title="1.6获得帮助"></a>1.6获得帮助</h3><ul>
+<li>man</li>
+<li>info</li>
+<li>其他</li>
+</ul>
+<h2 id="2-Linux用户管理"><a href="#2-Linux用户管理" class="headerlink" title="2.Linux用户管理"></a>2.Linux用户管理</h2><p>Linux是一个多用户分时系统。</p>
+<h3 id="2-1Linux用户和用户组"><a href="#2-1Linux用户和用户组" class="headerlink" title="2.1Linux用户和用户组"></a>2.1Linux用户和用户组</h3><p>Linux采用一个32位整数记录不同用户，可以记录多达40亿个不同用户，这个数字称为UID(User ID)。</p>
+<ul>
+<li>Linux系统有三种用户：<ul>
+<li>普通用户：系统默认用户ID从500开始编号，操作权限：家目录，系统临时目录，属于该用户的文件，以及其他经过授权的文件。</li>
+<li>根用户：root用户，ID为0，超级用户。</li>
+<li>系统用户：系统运行时必须有的用户，非真实使用者。ID是1~499，例如用户apache，用户mysql。</li>
+</ul>
+</li>
+<li>Linux有用户组，也用数字区分，称为Group ID，简称GID。</li>
+<li>确认UID指令：id；确认GID指令：groups。</li>
+<li>查询当前在线用户：who</li>
+<li>tty：终端；pty：虚拟终端，pts（pseudo terminal slave）是pty（pseudo-tty）的实现方法，和ptmx（pseudo-termianl master）配合实现pty。pts：伪终端，如远程登陆访问终端。</li>
+<li>/etc/passwd和etc/shadow<ul>
+<li>/etc/passwd：</li>
+<li>/etc/shadow：影子密码</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2Linux账号管理"><a href="#2-2Linux账号管理" class="headerlink" title="2.2Linux账号管理"></a>2.2Linux账号管理</h3><ul>
+<li>1.新增用户：useradd -u UID -g Group-string name-string<ul>
+<li>1.在/etc/passwd和/etc/shadow添加一条记录；</li>
+<li>2.在/home创建用户的家目录，/home/name-string；</li>
+<li>3.复制/etc/skel（用户创建模板）所有文件到 /home/name-string；</li>
+<li>4.创建同名用户组。</li>
+<li>注释：/etc/skel预设的用户配置文件。</li>
+</ul>
+</li>
+<li>2.修改密码：password name-string<ul>
+<li>用户创建后，/etc/shadow 以冒号分隔开的第二列将显示为两个感叹号，表示不允许该用户登陆系统。</li>
+<li>普通用户只能修改自己的密码，直接使用password即可。</li>
+</ul>
+</li>
+<li>3.修改用户：usermod<ul>
+<li>对/etc/passwd和/etc/shadow进行修改。</li>
+<li>参数 -d /home/string ，修改家目录。 -L name-string，冻结用户；-U name-string，解冻用户。</li>
+</ul>
+</li>
+<li>4.删除用户：userdel<ul>
+<li>加-r参数会同时删掉该用户的家目录和邮件。</li>
+</ul>
+</li>
+<li>5.增加用户组：groupadd<ul>
+<li>/etc/group</li>
+</ul>
+</li>
+<li>6.删除用户组：groupdel<ul>
+<li>如果用户组不为空，则失败。</li>
+</ul>
+</li>
+<li>7.检查用户信息<ul>
+<li>1.查看用户：users、who、w</li>
+<li>2.调查用户：finger [用户名]?</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-3切换用户"><a href="#2-3切换用户" class="headerlink" title="2.3切换用户"></a>2.3切换用户</h3><ul>
+<li>su <ul>
+<li>不加参数默认切换到root用户，输入密码切换。exit退回原用户。根用户不需要密码。</li>
+</ul>
+</li>
+<li>su-<ul>
+<li>不但身份变成root，还能应用root的用户环境，即/etc/passwd定义的用户家目录，使用的shell，以及关于这个用户的个性化设置。</li>
+</ul>
+</li>
+<li>sudo 执行命令<ul>
+<li>首先检查/etc/sudoers，判断该用户是否有sudo执行权限。</li>
+<li>使用visudo，可以在退出时候检查语法设置。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-4例行任务管理"><a href="#2-4例行任务管理" class="headerlink" title="2.4例行任务管理"></a>2.4例行任务管理</h3><ul>
+<li>1.cron</li>
+<li>2.at</li>
+</ul>
+<h2 id="3-Linux文件管理"><a href="#3-Linux文件管理" class="headerlink" title="3.Linux文件管理"></a>3.Linux文件管理</h2><h3 id="3-1文件和目录管理"><a href="#3-1文件和目录管理" class="headerlink" title="3.1文件和目录管理"></a>3.1文件和目录管理</h3><ul>
+<li>FHS（文件系统层次标准）定义了在根目录下的主要目录以及每个目录应该存放什么文件。</li>
+</ul>
+<h3 id="3-2文件和目录权限"><a href="#3-2文件和目录权限" class="headerlink" title="3.2文件和目录权限"></a>3.2文件和目录权限</h3><h3 id="3-3查找文件"><a href="#3-3查找文件" class="headerlink" title="3.3查找文件"></a>3.3查找文件</h3><h3 id="3-4文件压缩和打包"><a href="#3-4文件压缩和打包" class="headerlink" title="3.4文件压缩和打包"></a>3.4文件压缩和打包</h3><h2 id="4-Linux文件系统"><a href="#4-Linux文件系统" class="headerlink" title="4.Linux文件系统"></a>4.Linux文件系统</h2><h2 id="5-字符处理"><a href="#5-字符处理" class="headerlink" title="5.字符处理"></a>5.字符处理</h2><h2 id="6-网络管理"><a href="#6-网络管理" class="headerlink" title="6.网络管理"></a>6.网络管理</h2><h2 id="7-进程管理"><a href="#7-进程管理" class="headerlink" title="7.进程管理"></a>7.进程管理</h2><h2 id="8-Linux下的软件安装"><a href="#8-Linux下的软件安装" class="headerlink" title="8.Linux下的软件安装"></a>8.Linux下的软件安装</h2><h2 id="9-vi和vim编辑器"><a href="#9-vi和vim编辑器" class="headerlink" title="9.vi和vim编辑器"></a>9.vi和vim编辑器</h2><h3 id="9-1vi和vim简介"><a href="#9-1vi和vim简介" class="headerlink" title="9.1vi和vim简介"></a>9.1vi和vim简介</h3><ul>
+<li>vi-Visual Interface，是Linux最基本的文本编辑器。</li>
+<li>vim，是vi的加强版。</li>
+</ul>
+<h3 id="9-2vi编辑器"><a href="#9-2vi编辑器" class="headerlink" title="9.2vi编辑器"></a>9.2vi编辑器</h3><ul>
+<li>三种模式介绍：一般、编辑、末行指令<ul>
+<li>一般模式，移动光标。</li>
+<li>编辑模式，按i键进入，按ESC键退出。</li>
+<li>末行指令模式，按：冒号键|斜杠键/|或问号键？|，进入。</li>
+</ul>
+</li>
+</ul>
+<h3 id="9-3vim编辑器"><a href="#9-3vim编辑器" class="headerlink" title="9.3vim编辑器"></a>9.3vim编辑器</h3><ul>
+<li>支持多行编辑</li>
+</ul>
+<h3 id="9-4gedit编辑器"><a href="#9-4gedit编辑器" class="headerlink" title="9.4gedit编辑器"></a>9.4gedit编辑器</h3><ul>
+<li>桌面环境的编辑器</li>
+</ul>
+<h2 id="10-正则表达式"><a href="#10-正则表达式" class="headerlink" title="10.正则表达式"></a>10.正则表达式</h2><h2 id="11-shell编程概述"><a href="#11-shell编程概述" class="headerlink" title="11.shell编程概述"></a>11.shell编程概述</h2><h2 id="12-Bash-Shell的安装"><a href="#12-Bash-Shell的安装" class="headerlink" title="12.Bash Shell的安装"></a>12.Bash Shell的安装</h2><h2 id="13-Shell编程基础"><a href="#13-Shell编程基础" class="headerlink" title="13.Shell编程基础"></a>13.Shell编程基础</h2><h2 id="14-测试和判断"><a href="#14-测试和判断" class="headerlink" title="14.测试和判断"></a>14.测试和判断</h2><h2 id="15-循环"><a href="#15-循环" class="headerlink" title="15.循环"></a>15.循环</h2><h2 id="16-函数"><a href="#16-函数" class="headerlink" title="16.函数"></a>16.函数</h2><h2 id="17-重定向"><a href="#17-重定向" class="headerlink" title="17.重定向"></a>17.重定向</h2><h2 id="18-脚本范例"><a href="#18-脚本范例" class="headerlink" title="18.脚本范例"></a>18.脚本范例</h2>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CentOS/" rel="tag"># CentOS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/02/css3/1.css%E5%92%8C%E6%96%87%E6%A1%A3/" rel="prev" title="1.css和文档">
+      <i class="fa fa-chevron-left"></i> 1.css和文档
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/07/centos-nginx-mongodb-node/2.nginx/" rel="next" title="2.CentOS+Nginx+Mongodb+Node之Nginx篇">
+      2.CentOS+Nginx+Mongodb+Node之Nginx篇 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-参考"><span class="nav-number">1.</span> <span class="nav-text">0.参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Linux简介"><span class="nav-number">2.</span> <span class="nav-text">1.Linux简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1Linux的简介"><span class="nav-number">2.1.</span> <span class="nav-text">1.1Linux的简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2Linux部分特点"><span class="nav-number">2.2.</span> <span class="nav-text">1.2Linux部分特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3Linux的发行版"><span class="nav-number">2.3.</span> <span class="nav-text">1.3Linux的发行版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4系统登陆"><span class="nav-number">2.4.</span> <span class="nav-text">1.4系统登陆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5系统启动流程"><span class="nav-number">2.5.</span> <span class="nav-text">1.5系统启动流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6获得帮助"><span class="nav-number">2.6.</span> <span class="nav-text">1.6获得帮助</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Linux用户管理"><span class="nav-number">3.</span> <span class="nav-text">2.Linux用户管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1Linux用户和用户组"><span class="nav-number">3.1.</span> <span class="nav-text">2.1Linux用户和用户组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2Linux账号管理"><span class="nav-number">3.2.</span> <span class="nav-text">2.2Linux账号管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3切换用户"><span class="nav-number">3.3.</span> <span class="nav-text">2.3切换用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4例行任务管理"><span class="nav-number">3.4.</span> <span class="nav-text">2.4例行任务管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Linux文件管理"><span class="nav-number">4.</span> <span class="nav-text">3.Linux文件管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1文件和目录管理"><span class="nav-number">4.1.</span> <span class="nav-text">3.1文件和目录管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2文件和目录权限"><span class="nav-number">4.2.</span> <span class="nav-text">3.2文件和目录权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3查找文件"><span class="nav-number">4.3.</span> <span class="nav-text">3.3查找文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4文件压缩和打包"><span class="nav-number">4.4.</span> <span class="nav-text">3.4文件压缩和打包</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Linux文件系统"><span class="nav-number">5.</span> <span class="nav-text">4.Linux文件系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-字符处理"><span class="nav-number">6.</span> <span class="nav-text">5.字符处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-网络管理"><span class="nav-number">7.</span> <span class="nav-text">6.网络管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-进程管理"><span class="nav-number">8.</span> <span class="nav-text">7.进程管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-Linux下的软件安装"><span class="nav-number">9.</span> <span class="nav-text">8.Linux下的软件安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-vi和vim编辑器"><span class="nav-number">10.</span> <span class="nav-text">9.vi和vim编辑器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-1vi和vim简介"><span class="nav-number">10.1.</span> <span class="nav-text">9.1vi和vim简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2vi编辑器"><span class="nav-number">10.2.</span> <span class="nav-text">9.2vi编辑器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-3vim编辑器"><span class="nav-number">10.3.</span> <span class="nav-text">9.3vim编辑器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-4gedit编辑器"><span class="nav-number">10.4.</span> <span class="nav-text">9.4gedit编辑器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-正则表达式"><span class="nav-number">11.</span> <span class="nav-text">10.正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-shell编程概述"><span class="nav-number">12.</span> <span class="nav-text">11.shell编程概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-Bash-Shell的安装"><span class="nav-number">13.</span> <span class="nav-text">12.Bash Shell的安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-Shell编程基础"><span class="nav-number">14.</span> <span class="nav-text">13.Shell编程基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-测试和判断"><span class="nav-number">15.</span> <span class="nav-text">14.测试和判断</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-循环"><span class="nav-number">16.</span> <span class="nav-text">15.循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-函数"><span class="nav-number">17.</span> <span class="nav-text">16.函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#17-重定向"><span class="nav-number">18.</span> <span class="nav-text">17.重定向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#18-脚本范例"><span class="nav-number">19.</span> <span class="nav-text">18.脚本范例</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="dragons00"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">dragons00</p>
+  <div class="site-description" itemprop="description">npm,html,css,javascript,前端</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dragons00" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;dragons00" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1575744670@qq.com" title="E-Mail → mailto:1575744670@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dragons00</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">12k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">11 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'xBABCkO4mQj8IBnFE4lKASWf-gzGzoHsz',
+      appKey     : 'B30cQcM2EW4Nlvkiu1T5ECAl',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
