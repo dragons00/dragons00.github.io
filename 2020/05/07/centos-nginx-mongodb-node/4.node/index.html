@@ -28,7 +28,7 @@
 <meta property="og:description" content="本文是构建CentOS+Nginx+Mongodb+Node之Node篇知识的整理。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-07T12:40:00.000Z">
-<meta property="article:modified_time" content="2020-05-13T10:07:29.296Z">
+<meta property="article:modified_time" content="2020-06-07T00:29:19.272Z">
 <meta property="article:author" content="dragons00">
 <meta property="article:tag" content="Node">
 <meta name="twitter:card" content="summary">
@@ -199,7 +199,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
       <meta itemprop="name" content="dragons00">
-      <meta itemprop="description" content="npm,html,css,javascript,vue,前端,语轩，博客">
+      <meta itemprop="description" content="npm,html,css,javascript,vue,前端,语轩，博客,hexo">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -224,7 +224,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-13 18:07:29" itemprop="dateModified" datetime="2020-05-13T18:07:29+08:00">2020-05-13</time>
+                <time title="修改时间：2020-06-07 08:29:19" itemprop="dateModified" datetime="2020-06-07T08:29:19+08:00">2020-06-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -263,7 +263,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>900</span>
+              <span>941</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -305,8 +305,12 @@
 <li>3.nvm install –lts</li>
 </ul>
 <h2 id="2-pm2"><a href="#2-pm2" class="headerlink" title="2.pm2"></a>2.pm2</h2><p>pm2 是为 Node.js 线上应用设计的进程管理器<br>npm install pm2 -g<br>ln -s （pm2的安装路径） /usr/local/bin/<br>pm2 list （看是否显示进程，如果是则显示表示安装成功）</p>
-<h2 id="3-部署到nginx上面"><a href="#3-部署到nginx上面" class="headerlink" title="3.部署到nginx上面"></a>3.部署到nginx上面</h2><p>在/etc/nginx/nginx.conf 修改一部分，增加一部分<br>server {<br>  listen 80;<br>  server_name ip地址;<br>  location / {<br>        proxy_pass <a href="http://ip地址：3000">http://ip地址：3000</a>;<br>    proxy_set_header X-Real-IP $remote_addr;<br>    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;<br>    proxy_set_header Host $http_host;<br>    proxy_set_header X-Nginx-Proxy true;<br>    proxy_redirect off;<br>  }<br>}</p>
-<h2 id="4-koa"><a href="#4-koa" class="headerlink" title="4.koa"></a>4.koa</h2>
+<h2 id="3-部署到nginx上面"><a href="#3-部署到nginx上面" class="headerlink" title="3.部署到nginx上面"></a>3.部署到nginx上面</h2><p>在/etc/nginx/conf.d/default.conf 修改一部分，增加一部分<br>server {<br>  listen 80;<br>  server_name ip地址;<br>  location / {<br>        proxy_pass <a href="http://ip地址：3000">http://ip地址：3000</a>;<br>    proxy_set_header X-Real-IP $remote_addr;<br>    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;<br>    proxy_set_header Host $http_host;<br>    proxy_set_header X-Nginx-Proxy true;<br>    proxy_redirect off;<br>  }<br>}</p>
+<h2 id="4-koa"><a href="#4-koa" class="headerlink" title="4.koa"></a>4.koa</h2><ul>
+<li>koa1 使用generator</li>
+<li>koa2 使用async/await</li>
+</ul>
+
     </div>
 
     
@@ -399,27 +403,27 @@
     <img class="site-author-image" itemprop="image" alt="dragons00"
       src="/images/avatar.jpg">
   <p class="site-author-name" itemprop="name">dragons00</p>
-  <div class="site-description" itemprop="description">npm,html,css,javascript,vue,前端,语轩，博客</div>
+  <div class="site-description" itemprop="description">npm,html,css,javascript,vue,前端,语轩，博客,hexo</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -464,13 +468,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">12k</span>
+    <span title="站点总字数">16k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11 分钟</span>
+    <span title="站点阅读时长">14 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>

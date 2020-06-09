@@ -28,7 +28,7 @@
 <meta property="og:description" content="本文是构建CentOS+Nginx+Mongodb+Node之Mongodb篇知识的整理。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-07T12:30:00.000Z">
-<meta property="article:modified_time" content="2020-05-13T10:06:47.726Z">
+<meta property="article:modified_time" content="2020-06-07T00:26:05.737Z">
 <meta property="article:author" content="dragons00">
 <meta property="article:tag" content="Mongodb">
 <meta name="twitter:card" content="summary">
@@ -199,7 +199,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
       <meta itemprop="name" content="dragons00">
-      <meta itemprop="description" content="npm,html,css,javascript,vue,前端,语轩，博客">
+      <meta itemprop="description" content="npm,html,css,javascript,vue,前端,语轩，博客,hexo">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -224,7 +224,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-13 18:06:47" itemprop="dateModified" datetime="2020-05-13T18:06:47+08:00">2020-05-13</time>
+                <time title="修改时间：2020-06-07 08:26:05" itemprop="dateModified" datetime="2020-06-07T08:26:05+08:00">2020-06-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -263,14 +263,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.4k</span>
+              <span>3.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -285,9 +285,43 @@
         <p>本文是构建CentOS+Nginx+Mongodb+Node之Mongodb篇知识的整理。</p>
 <a id="more"></a>
 <h2 id="0-参考"><a href="#0-参考" class="headerlink" title="0.参考"></a>0.参考</h2><ul>
-<li>1.茅坑里的小石头-简书：<a href="https://www.jianshu.com/p/d0755bed048b；" target="_blank" rel="noopener">https://www.jianshu.com/p/d0755bed048b；</a></li>
+<li>1.茅坑里的小石头-简书：<a href="https://www.jianshu.com/p/" target="_blank" rel="noopener">https://www.jianshu.com/p/</a><h2 id="1-MongoDB简介"><a href="#1-MongoDB简介" class="headerlink" title="1.MongoDB简介"></a>1.MongoDB简介</h2></li>
+<li>MongoDB 是由C++语言编写的，是一个基于分布式文件存储的开源数据库系统，在高负载的情况下，添加更多的节点，可以保证服务器性能。MongoDB 旨在为WEB应用提供可扩展的高性能数据存储解决方案。</li>
+<li>MongoDB 将数据存储为一个文档，数据结构由键值(key=&gt;value)对组成。MongoDB 文档类似于 JSON 对象。字段值可以包含其他文档，数组及文档数组。</li>
 </ul>
-<h2 id="1-安装"><a href="#1-安装" class="headerlink" title="1.安装"></a>1.安装</h2><ul>
+<h2 id="2-MongoDB的基本应用"><a href="#2-MongoDB的基本应用" class="headerlink" title="2.MongoDB的基本应用"></a>2.MongoDB的基本应用</h2><p>一个mongodb中可以建立多个数据库。MongoDB的默认数据库为”db”，该数据库存储在data目录中。MongoDB的单个实例可以容纳多个独立的数据库，每一个都有自己的集合和权限，不同的数据库也放置在不同的文件中。</p>
+<h3 id="2-1mongo命令"><a href="#2-1mongo命令" class="headerlink" title="2.1mongo命令"></a>2.1mongo命令</h3><ul>
+<li>1.show dbs 显示所有数据库。</li>
+<li>2.db 显示当前数据库或集合。</li>
+<li>3.use dataName（数据库名称应当小写）  连接到指定数据库，不存在则创建。</li>
+<li>4.db.dropDatabase() 删除当前数据库</li>
+<li>5.db.collection.drop()   删除当前集合</li>
+<li>6.insert() 或 save() 方法向集合中插入文档，语法如下：<ul>
+<li>db.COLLECTION_NAME（变量）.insert(document)  </li>
+<li>db.col.save(document) 命令。如果不指定 _id 字段 save() 方法类似于 insert() 方法。如果指定 _id 字段，则会更新该 _id 的数据。</li>
+</ul>
+</li>
+<li>7.MongoDB 使用 update() 和 save() 方法来更新集合中的文档<ul>
+<li>update() 方法用于更新已存在的文档。语法格式如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">db.collection.update(    </span><br><span class="line">	&lt;query&gt;, </span><br><span class="line">	&lt;update&gt;, </span><br><span class="line">	&#123;       </span><br><span class="line">		upsert: &lt;boolean&gt;,   </span><br><span class="line">		multi: &lt;boolean&gt;,  </span><br><span class="line">		writeConcern: &lt;document&gt;</span><br><span class="line">	&#125;</span><br><span class="line">)</span><br><span class="line">参数说明：</span><br><span class="line"></span><br><span class="line">query : update的查询条件，类似sql update查询内where后面的。</span><br><span class="line">update : update的对象和一些更新的操作符（如$,$inc...）等，也可以理解为sql update查询内set后面的</span><br><span class="line">upsert : 可选，这个参数的意思是，如果不存在update的记录，是否插入objNew,true为插入，默认是false，不插入。</span><br><span class="line">multi : 可选，mongodb 默认是false,只更新找到的第一条记录，如果这个参数为true,就把按条件查出来多条记录全部更新。</span><br><span class="line">writeConcern :可选，抛出异常的级别。</span><br></pre></td></tr></table></figure></li>
+<li>save() 方法通过传入的文档来替换已有文档<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">db.collection.save(    </span><br><span class="line">	&lt;document&gt;,     </span><br><span class="line">	&#123;      </span><br><span class="line">		writeConcern: &lt;document&gt; </span><br><span class="line">	&#125;  </span><br><span class="line">)  </span><br><span class="line">参数说明：</span><br><span class="line"></span><br><span class="line">document : 文档数据。</span><br><span class="line">writeConcern :可选，抛出异常的级别</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>remove() 方法的基本语法格式如下所示：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">db.collection.remove( </span><br><span class="line">	&lt;query&gt;,     </span><br><span class="line">	&lt;justOne&gt; </span><br><span class="line">)  </span><br><span class="line">如果你的 MongoDB 是 2.6 版本以后的，语法格式如下：</span><br><span class="line"></span><br><span class="line">db.collection.remove(     </span><br><span class="line">	&lt;query&gt;,     </span><br><span class="line">	&#123;       </span><br><span class="line">		justOne: &lt;boolean&gt;,</span><br><span class="line">		writeConcern: &lt;document&gt; </span><br><span class="line">	&#125; </span><br><span class="line">)</span><br><span class="line">参数说明：</span><br><span class="line"></span><br><span class="line">query :（可选）删除的文档的条件。</span><br><span class="line">justOne : （可选）如果设为 true 或 1，则只删除一个文档。</span><br><span class="line">writeConcern :（可选）抛出异常的级别。</span><br></pre></td></tr></table></figure></li>
+<li>MongoDB 查询数据的语法格式如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;db.COLLECTION_NAME.find()</span><br><span class="line">find() 方法以非结构化的方式来显示所有文档。</span><br><span class="line"></span><br><span class="line">如果你需要以易读的方式来读取数据，可以使用 pretty() 方法，语法格式如下：</span><br><span class="line"></span><br><span class="line">&gt;db.col.find().pretty()</span><br></pre></td></tr></table></figure>
+<h3 id="2-2mongodb默认设置"><a href="#2-2mongodb默认设置" class="headerlink" title="2.2mongodb默认设置"></a>2.2mongodb默认设置</h3></li>
+<li>1.有一些数据库名是保留的，可以直接访问这些有特殊作用的数据库。<ul>
+<li>1.admin： 从权限的角度来看，这是”root”数据库。要是将一个用户添加到这个数据库，这个用户自动继承所有数据库的权限。一些特定的服务器端命令也只能从这个数据库运行，比如列出所有的数据库或者关闭服务器。</li>
+<li>2.local: 这个数据永远不会被复制，可以用来存储限于本地单台服务器的任意集合</li>
+<li>3.config: 当Mongo用于分片设置时，config数据库在内部使用，用于保存分片的相关信息。<h3 id="2-3连接到mongodb"><a href="#2-3连接到mongodb" class="headerlink" title="2.3连接到mongodb"></a>2.3连接到mongodb</h3></li>
+</ul>
+</li>
+<li>1.shell连接 <ul>
+<li>1.mongodb://localhost</li>
+<li>2.mongodb://username:password@hostname/dbname</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-安装"><a href="#3-安装" class="headerlink" title="3.安装"></a>3.安装</h2><ul>
 <li>1.配置mongodb-org</li>
 <li>2.yum install -y mongodb-org</li>
 <li>3.systemctl start mongod<ul>
@@ -296,6 +330,10 @@
 </li>
 <li>4.systemctl enable mongod</li>
 <li>5.坑：<ul>
+<li>mongodb目前遇到不正常关闭较多<ul>
+<li>建议在重启服务器之前先systemctl stop mongod，重启后手动开启服务。</li>
+</ul>
+</li>
 <li>Failed to unlink socket file /tmp/mongodb-27017.sock errno:1 Operation not permitted<ul>
 <li>删除/tmp/mongodb-27017.sock。</li>
 </ul>
@@ -313,7 +351,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="2-mongoose的使用"><a href="#2-mongoose的使用" class="headerlink" title="2.mongoose的使用"></a>2.mongoose的使用</h2><ul>
+<h2 id="4-mongoose的使用"><a href="#4-mongoose的使用" class="headerlink" title="4.mongoose的使用"></a>4.mongoose的使用</h2><ul>
 <li>db.js</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">const mongoose &#x3D; require(&#39;mongoose&#39;);</span><br><span class="line">mongoose.connect(&#39;mongodb:&#x2F;&#x2F;localhost:27017&#x2F;users&#39;,&#123;useUnifiedTopology: true,useNewUrlParser: true&#125;);</span><br><span class="line">const db&#x3D; mongoose.connection;</span><br><span class="line">mongoose.Promise&#x3D;global.Promise;</span><br><span class="line">db.on(&#39;open&#39;,()&#x3D;&gt;&#123;console.log(&#39;连接成功&#39;)&#125;);</span><br><span class="line">db.on(&#39;error&#39;,()&#x3D;&gt;&#123;console.log(&#39;连接失败&#39;)&#125;);</span><br><span class="line">module.exports&#x3D;&#123;mongoose&#125;;</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line"></span><br><span class="line">const  mongoose &#x3D; require(&quot;.&#x2F;index&quot;);</span><br><span class="line">const Schema &#x3D; mongoose.Schema;</span><br><span class="line"></span><br><span class="line">var UserSchema &#x3D; new Schema(&#123;</span><br><span class="line">    name: &#123;type: String&#125;,</span><br><span class="line">    mobile: &#123;type: String&#125;,</span><br><span class="line">    pwd: &#123;type: String&#125;</span><br><span class="line">&#125;);</span><br><span class="line">module.exports &#x3D; mongoose.model(&#39;User&#39;, UserSchema);</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
@@ -400,7 +438,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-参考"><span class="nav-number">1.</span> <span class="nav-text">0.参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-安装"><span class="nav-number">2.</span> <span class="nav-text">1.安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-mongoose的使用"><span class="nav-number">3.</span> <span class="nav-text">2.mongoose的使用</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-参考"><span class="nav-number">1.</span> <span class="nav-text">0.参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-MongoDB简介"><span class="nav-number">2.</span> <span class="nav-text">1.MongoDB简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-MongoDB的基本应用"><span class="nav-number">3.</span> <span class="nav-text">2.MongoDB的基本应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1mongo命令"><span class="nav-number">3.1.</span> <span class="nav-text">2.1mongo命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2mongodb默认设置"><span class="nav-number">3.2.</span> <span class="nav-text">2.2mongodb默认设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3连接到mongodb"><span class="nav-number">3.3.</span> <span class="nav-text">2.3连接到mongodb</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-安装"><span class="nav-number">4.</span> <span class="nav-text">3.安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-mongoose的使用"><span class="nav-number">5.</span> <span class="nav-text">4.mongoose的使用</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -409,27 +447,27 @@
     <img class="site-author-image" itemprop="image" alt="dragons00"
       src="/images/avatar.jpg">
   <p class="site-author-name" itemprop="name">dragons00</p>
-  <div class="site-description" itemprop="description">npm,html,css,javascript,vue,前端,语轩，博客</div>
+  <div class="site-description" itemprop="description">npm,html,css,javascript,vue,前端,语轩，博客,hexo</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -474,13 +512,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">12k</span>
+    <span title="站点总字数">16k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11 分钟</span>
+    <span title="站点阅读时长">14 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
