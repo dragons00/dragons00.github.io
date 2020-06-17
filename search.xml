@@ -691,8 +691,8 @@
       </tags>
   </entry>
   <entry>
-    <title>前端表单元素相关知识</title>
-    <url>/2020/05/25/%E5%89%8D%E7%AB%AF%E8%A1%A8%E5%8D%95%E5%85%83%E7%B4%A0%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/%E5%89%8D%E7%AB%AF%E8%A1%A8%E5%8D%95%E5%85%83%E7%B4%A0%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/</url>
+    <title>HTML表单元素</title>
+    <url>/2020/06/17/HTML%E8%A1%A8%E5%8D%95%E5%85%83%E7%B4%A0/HTML%E8%A1%A8%E5%8D%95%E5%85%83%E7%B4%A0/</url>
     <content><![CDATA[<p>本文是表单元素相关知识的整理，涉及表单元素、表单元素的属性、事件以及相关的web API。</p>
 <a id="more"></a>
 <h2 id="1-Form相关标签"><a href="#1-Form相关标签" class="headerlink" title="1.Form相关标签"></a>1.Form相关标签</h2><h3 id="1-1form-form"><a href="#1-1form-form" class="headerlink" title="1.1form/form"></a>1.1form/form</h3><h3 id="1-2label-label"><a href="#1-2label-label" class="headerlink" title="1.2label/label"></a>1.2label/label</h3><p>label元素上使用for属性，引用对应的小部件的id，它是将标签链接到表单小部件的一种正规方式。</p>
